@@ -12,5 +12,5 @@ CREATE TABLE habit (
     reminder INTEGER,
     status VARCHAR,
     user_id INTEGER REFERENCES "user" (id),
-    comments INTEGER
+    comments VARCHAR
 );

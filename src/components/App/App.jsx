@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import './App.css';
+import HabitForm from '../LandingPage/HabitForm/habitForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -63,9 +64,9 @@ function App() {
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/info"
+            path="/create-habit"
           >
-            <InfoPage />
+            <HabitForm />
           </ProtectedRoute>
 
           <Route

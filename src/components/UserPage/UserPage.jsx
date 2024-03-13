@@ -1,50 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogOutButton from "../LogOutButton/LogOutButton";
 import { useSelector } from "react-redux";
 import Habit from "./Habit/habit";
-
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 function UserPage() {
   const user = useSelector((store) => store.user);
-  const [habits, setHabits] = useState([
-    {
-      id: 2,
-      title: "workout",
-      time: "08:00:00",
-      frequency: "weekly",
-      reminder: 10,
-      is_complete: true,
-      user_id: 1,
-      comments: "i workout today",
-    },
-    {
-      id: 3,
-      title: "drink water",
-      time: "08:00:00",
-      frequency: "daily",
-      reminder: 10,
-      is_complete: false,
-      user_id: 1,
-      comments: "i drink 10 cups of water today",
-    },
-    {
-      id: 4,
-      title: "walking",
-      time: "10:00:00",
-      frequency: "daily",
-      reminder: 10,
-      is_complete: false,
-      user_id: 1,
-      comments: "i walk today",
-    },
-  ]);
+  const history = useHistory();
+  const [habits, setHabits] = useState([]);
+  const getHabits = async () => {
+    const response = await axios.get("/api/habit");
+    console.log(response.data);
+    setHabits(response.data);
+  };
+  useEffect(() => {
+    getHabits();
+  }, []);
   return (
     <div className="container">
       <div>
-        <button className="create">Create New Habit</button>
+        <button
+          onClick={() => history.push("/create-habit")}
+          className="create"
+        >
+          Create New Habit
+        </button>
       </div>
       <div className="list">
         {habits.map((habit) => (
-          <Habit habit={habit} />
+          <Habit habit={habit} refreshHabit={()=>getHabits()} />
         ))}
       </div>
     </div>

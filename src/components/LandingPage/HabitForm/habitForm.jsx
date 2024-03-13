@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const HabitForm = () => {
   const [habitData, setHabitData] = useState({
@@ -14,13 +15,12 @@ const HabitForm = () => {
     const { name, value } = e.target;
     setHabitData({ ...habitData, [name]: value });
   };
-
+  const history = useHistory();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/habits", habitData);
+      const response = await axios.post("/api/habit", habitData);
       if (response.status === 201) {
-        alert("Habit added successfully");
         setHabitData({
           title: "",
           time: "",
@@ -29,6 +29,7 @@ const HabitForm = () => {
           comments: "",
         });
       }
+      history.push("/user");
     } catch (error) {
       console.error("Error adding habit:", error);
       alert("Error adding habit");
@@ -53,7 +54,7 @@ const HabitForm = () => {
         <div className="group">
           <label htmlFor="time">Time:</label>
           <input
-            type="text"
+            type="time"
             id="time"
             name="time"
             value={habitData.time}
@@ -77,15 +78,19 @@ const HabitForm = () => {
         </div>
         <div className="group">
           <label htmlFor="reminder">Reminder:</label>
-          <input
-            type="text"
+          <select
             id="reminder"
             name="reminder"
             value={habitData.reminder}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+          </select>
         </div>
+
         <div className="group">
           <label htmlFor="comments">Comments:</label>
           <input
@@ -97,7 +102,9 @@ const HabitForm = () => {
           />
         </div>
 
-        <button className="create" type="submit">Add Habit</button>
+        <button className="create" type="submit">
+          Add Habit
+        </button>
       </form>
     </div>
   );

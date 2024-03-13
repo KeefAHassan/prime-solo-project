@@ -123,7 +123,9 @@ input {
   width: 300px;
   position: relative;
 }
-
+.habit h2 {
+  text-transform: capitalize;
+}
 .icons {
   position: absolute;
   right: 10px;
@@ -201,9 +203,10 @@ button {
   background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(121, 9, 95, 1) 35%, rgba(6, 154, 184, 1) 100%);
   color: white;
   margin-bottom: 50px;
-  width: 150px;
-  height: 45px;
+  width: 200px !important; 
+  height: 50px;
   border-radius: 25px;
+
 }
 form{
   display: flex;
@@ -227,4 +230,8 @@ form{
 select{
   height: 45px;
   
+}
+a{
+  text-decoration: none;
+
 }

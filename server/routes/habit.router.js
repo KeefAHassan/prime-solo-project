@@ -9,7 +9,7 @@ const {
  */
 router.get('/', rejectUnauthenticated, (req, res) => {
   pool
-    .query(`SELECT * FROM "habit" WHERE "user_id" = $1;`, [req.user.id])
+    .query(`SELECT * FROM "habit" WHERE "user_id" = $1 ORDER BY is_complete ASC, id DESC;`, [req.user.id])
     .then((results) => res.send(results.rows))
     .catch((error) => {
       console.log('Error making SELECT for secrets:', error);

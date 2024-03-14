@@ -28,7 +28,11 @@ function UserPage() {
       </div>
       <div className="list">
         {habits.map((habit) => (
-          <Habit habit={habit} refreshHabit={()=>getHabits()} />
+          <Habit
+            habit={habit}
+            refreshHabit={() => getHabits()}
+            key={habit.id}
+          />
         ))}
       </div>
     </div>

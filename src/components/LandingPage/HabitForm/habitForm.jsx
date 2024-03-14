@@ -7,7 +7,7 @@ const HabitForm = () => {
     title: "",
     time: "",
     frequency: "daily",
-    reminder: "",
+    reminder: "15",
     comments: "",
   });
 
@@ -25,7 +25,7 @@ const HabitForm = () => {
           title: "",
           time: "",
           frequency: "daily",
-          reminder: "",
+          reminder: "15",
           comments: "",
         });
       }

@@ -116,11 +116,11 @@ input {
 .habit {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   background-color: white;
   padding: 12px;
   border-radius: 15px;
-  width: 300px;
+  width: 100%;
   position: relative;
 }
 .habit h2 {
@@ -143,6 +143,9 @@ button svg {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .icons input {}
@@ -234,4 +237,14 @@ select{
 a{
   text-decoration: none;
 
+}
+.due{
+font-weight: 600;
+}
+.done{
+  text-decoration: line-through;
+}
+.complete{
+  font-weight: 600;
+  margin-right: 15px;
 }

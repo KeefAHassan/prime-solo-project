@@ -21,11 +21,13 @@ function Habit({ habit, refreshHabit }) {
   }
 
   function formatTime(hours, minutes) {
-    // Pad single digits with leading zeros
-    const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+    // Convert hours to 12-hour format
+    const period = hours < 12 ? "AM" : "PM";
+    const formattedHours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${formattedHours}:${formattedMinutes}`;
   }
+
   const [loading, setLoading] = useState(false);
   const markAsDone = async () => {
     try {
@@ -73,10 +75,15 @@ function Habit({ habit, refreshHabit }) {
   return (
     <div className={`habit ${habit.is_complete && "done"}`}>
       <h2>{habit.title}</h2>
+      <p className="comments">{habit.comments}</p>
       <p>{habit.frequency}</p>
-      <p className="due" >Due {formatDate(new Date(habit.due)).toUpperCase()}</p>
+      <p className="due">
+        {habit.is_complete ? "Done" : "Due"}{" "}
+        {formatDate(new Date(habit.due)).toUpperCase()}
+      </p>
       <p>{generateTimeRange(habit.time)}</p>
       <div className="icons">
+       {!habit.is_complete && <p className="markDone">Done</p>}
         {!habit.is_complete ? (
           <label className="checkbox" style={{ fontSize: "10vmin" }}>
             <input
@@ -91,7 +98,7 @@ function Habit({ habit, refreshHabit }) {
             <div className="check"></div>
           </label>
         ) : (
-          <p className="complete" >COMPLETE</p>
+          <p className="complete">COMPLETE</p>
         )}
         <button onClick={() => deleteHabit()}>
           <svg

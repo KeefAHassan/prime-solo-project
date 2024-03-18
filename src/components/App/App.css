@@ -119,6 +119,7 @@ input {
   gap: 5px;
   background-color: white;
   padding: 12px;
+  padding-left: 30px;
   border-radius: 15px;
   width: 100%;
   position: relative;
@@ -128,7 +129,7 @@ input {
 }
 .icons {
   position: absolute;
-  right: 10px;
+  right: 50px;
   bottom: 10px;
   display: flex;
   gap: 20px;
@@ -191,6 +192,7 @@ input:checked+.check {
   transition-delay: 0s;
   -webkit-clip-path: polygon(28% 38%, 41% 53%, 75% 24%, 86% 38%, 40% 78%, 15% 50%);
   clip-path: polygon(28% 38%, 41% 53%, 75% 24%, 86% 38%, 40% 78%, 15% 50%);
+  
 }
 
 button {
@@ -242,9 +244,16 @@ a{
 font-weight: 600;
 }
 .done{
-  text-decoration: line-through;
+  text-decoration: line-through rgb(8, 234, 46);
+
 }
 .complete{
   font-weight: 600;
   margin-right: 15px;
+}
+.comments{
+  margin-top: -15px;
+  color: #444;
+}.markDone{
+  margin-bottom: -10px;
 }

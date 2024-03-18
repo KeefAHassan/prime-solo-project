@@ -257,3 +257,11 @@ font-weight: 600;
 }.markDone{
   margin-bottom: -10px;
 }
+.edit{
+  position: absolute;
+  right: 50px;
+  top: 30px;
+  font-size: 18px;
+  text-decoration: underline;
+
+}

@@ -29,7 +29,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     comments,
     due)
   VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
-  const today = new Date().toISOString().slice(0, 19).replace('T', ' ') 
+  const today = new Date().toISOString().slice(0, 19).replace('T', ' ')
   pool
     .query(queryText, [req.body.title,
     req.body.time,
@@ -96,6 +96,34 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
       }
     );
 })
+router.put('/update/:id', rejectUnauthenticated, (req, res) => {
+  const habitId = req.params.id;
+
+  const sqlQuery = `UPDATE habit
+  SET 
+      title = $1,
+      time = $2,
+      frequency = $3,
+      reminder = $4,
+      comments = $5
+  WHERE id = $6;
+  `;
+
+  pool.query(sqlQuery, [req.body.title, req.body.time, req.body.frequency, req.body.reminder, req.body.comments, habitId])
+    .then(
+      (result) => {
+        console.log(`Update query worked! ${sqlQuery}`, result);
+
+        res.sendStatus(200);
+      }
+    )
+    .catch(
+      (error) => {
+        console.log(`Update query failed, ${sqlQuery}`, error);
+        res.sendStatus(400);
+      }
+    );
+})
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   let id = req.params.id;
   let queryText = `DELETE FROM "habit" WHERE "id" = $1`;
@@ -103,6 +131,16 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     res.sendStatus(204);
   }).catch(error => {
     console.log(`Error in DELETE with querytext ${queryText}`, error);
+    res.sendStatus(500);
+  });
+})
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+  let id = req.params.id;
+  const getQuery = `SELECT * FROM "habit" WHERE id=$1;`;
+  pool.query(getQuery, [id]).then(result => {
+    res.send(result.rows[0]);
+  }).catch(error => {
+    console.log(`Error in DELETE with querytext ${getQuery}`, error);
     res.sendStatus(500);
   });
 })

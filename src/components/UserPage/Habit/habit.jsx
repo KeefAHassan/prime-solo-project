@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Habit({ habit, refreshHabit }) {
   function generateTimeRange(startTime) {
@@ -74,6 +75,7 @@ function Habit({ habit, refreshHabit }) {
 
   return (
     <div className={`habit ${habit.is_complete && "done"}`}>
+     {!habit.is_complete && <Link className="edit" to ={`/create-habit?id=${habit.id}`}>Edit</Link>}
       <h2>{habit.title}</h2>
       <p className="comments">{habit.comments}</p>
       <p>{habit.frequency}</p>

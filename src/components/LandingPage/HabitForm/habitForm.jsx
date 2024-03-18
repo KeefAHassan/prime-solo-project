@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const HabitForm = () => {
   const [habitData, setHabitData] = useState({
@@ -10,7 +11,31 @@ const HabitForm = () => {
     reminder: "15",
     comments: "",
   });
-
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const habitId = searchParams.get("id");
+  const [habit, setHabit] = useState(null);
+  const getHabit = async () => {
+    const response = await axios.get("/api/habit/" + habitId);
+    console.log(response.data);
+    setHabit(response.data);
+  };
+  useEffect(() => {
+    if (habitId) {
+      getHabit();
+    }
+  }, [habitId]);
+  useEffect(() => {
+    if (habit?.id) {
+      setHabitData({
+        title: habit.title,
+        time: habit.time,
+        frequency: habit.frequency,
+        reminder: habit.reminder,
+        comments: habit.comments,
+      });
+    }
+  }, [habit]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setHabitData({ ...habitData, [name]: value });
@@ -19,7 +44,9 @@ const HabitForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/habit", habitData);
+      const response = habitId
+        ? await axios.put("/api/habit/update/" + habitId, habitData)
+        : await axios.post("/api/habit", habitData);
       if (response.status === 201) {
         setHabitData({
           title: "",

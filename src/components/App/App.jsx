@@ -22,6 +22,7 @@ import RegisterPage from "../RegisterPage/RegisterPage";
 
 import "./App.css";
 import HabitForm from "../LandingPage/HabitForm/habitForm";
+import ConnectGoogle from "../ConnectGoogle/ConnectGoogle";
 
 
 function App() {
@@ -69,12 +70,19 @@ function App() {
           >
             <HabitForm />
           </ProtectedRoute>
+          <ProtectedRoute
+            // logged in shows InfoPage else shows LoginPage
+            exact
+            path="/connect"
+          >
+            <ConnectGoogle />
+          </ProtectedRoute>
 
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
               // redirect to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/connect" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -85,7 +93,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/connect" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -96,7 +104,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/connect" />
             ) : (
               // Otherwise, show the Landing page
               <LandingPage />

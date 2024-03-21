@@ -265,3 +265,10 @@ font-weight: 600;
   text-decoration: underline;
 
 }
+.connect{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}

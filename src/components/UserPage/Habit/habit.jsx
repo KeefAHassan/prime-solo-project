@@ -28,7 +28,7 @@ function Habit({ habit, refreshHabit }) {
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${formattedHours}:${formattedMinutes}`;
   }
-
+//mark as done
   const [loading, setLoading] = useState(false);
   const markAsDone = async () => {
     try {

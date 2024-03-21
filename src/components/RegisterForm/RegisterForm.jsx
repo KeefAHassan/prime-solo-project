@@ -22,6 +22,7 @@ function RegisterForm() {
   return (
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register User</h2>
+      <p>you will redirected to connect to your Google calendar</p>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}

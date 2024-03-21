@@ -19,6 +19,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 /**
  * create new habit
+ * receive habit details & save on the database
  */
 router.post('/', rejectUnauthenticated, (req, res) => {
   const queryText = `INSERT INTO "habit" (title,
@@ -45,11 +46,13 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     });
 });
 
+//mark a habit as complete & re-create the same habit for next time
+//
 router.put('/:id', rejectUnauthenticated, (req, res) => {
   const habitId = req.params.id;
 
   const sqlQuery = `UPDATE "habit" SET "is_complete" = true WHERE id=$1;`;
-
+//marking as done
   pool.query(sqlQuery, [habitId])
     .then(
       (result) => {
@@ -58,6 +61,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
         const getQuery = `SELECT * FROM "habit" WHERE id=$1;`;
         pool.query(getQuery, [habitId]).then(result => {
           const habit = result.rows[0]
+          //recreating habits
           const queryText = `INSERT INTO "habit" (title,
             time,
             frequency,
@@ -66,6 +70,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
             comments,
             due)
           VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
+          //determine when next habit will happen
           const today = new Date()
           const tomorrow = new Date(today.setDate(today.getDate() + 1))
           const nextWeek = new Date(today.setDate(today.getDate() + 7))

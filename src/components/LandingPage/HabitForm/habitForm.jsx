@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { gapi } from "gapi-script";
 
 const HabitForm = () => {
   const [habitData, setHabitData] = useState({
@@ -41,6 +42,7 @@ const HabitForm = () => {
     setHabitData({ ...habitData, [name]: value });
   };
   const history = useHistory();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -48,6 +50,38 @@ const HabitForm = () => {
         ? await axios.put("/api/habit/update/" + habitId, habitData)
         : await axios.post("/api/habit", habitData);
       if (response.status === 201) {
+        const addEvent = () => {
+          const event = {
+            summary: habitData.title,
+            description: habitData.comments,
+            start: {
+              dateTime: new Date(),
+              timeZone:"America/Chicago"
+            },
+            end: {
+              dateTime: new Date(new Date().getTime() + 3600000),
+              timeZone:"America/Chicago"
+
+            },
+            recurrence: [`RRULE:FREQ=${habitData.frequency.toUpperCase()}`],
+            reminders: {
+              useDefault: false,
+              overrides: [
+                { method: "popup", minutes: habitData.reminder },
+              ],
+            },
+          };
+      
+          const request = gapi.client.calendar.events.insert({
+            calendarId: "primary",
+            resource: event,
+          });
+      
+          request.execute(function (event) {
+            console.log(event);
+          });
+        };
+        addEvent()
         setHabitData({
           title: "",
           time: "",

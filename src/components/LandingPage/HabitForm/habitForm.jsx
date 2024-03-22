@@ -42,7 +42,18 @@ const HabitForm = () => {
     setHabitData({ ...habitData, [name]: value });
   };
   const history = useHistory();
-  
+  // gapi.load("client", function () {
+  //   gapi.client
+  //     .init({})
+  //     .then(function () {
+  //       let googleToken = localStorage.getItem("googleToken");
+  //       const credentials = JSON.parse(googleToken); // parse it if you got it as string
+  //       gapi.client.setToken(credentials);
+  //     })
+  //     .catch(function (err) {
+  //       console.log(err);
+  //     });
+  // });
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -56,32 +67,40 @@ const HabitForm = () => {
             description: habitData.comments,
             start: {
               dateTime: new Date(),
-              timeZone:"America/Chicago"
+              timeZone: "America/Chicago",
             },
             end: {
               dateTime: new Date(new Date().getTime() + 3600000),
-              timeZone:"America/Chicago"
-
+              timeZone: "America/Chicago",
             },
             recurrence: [`RRULE:FREQ=${habitData.frequency.toUpperCase()}`],
             reminders: {
               useDefault: false,
-              overrides: [
-                { method: "popup", minutes: habitData.reminder },
-              ],
+              overrides: [{ method: "popup", minutes: habitData.reminder }],
             },
           };
-      
+
           const request = gapi.client.calendar.events.insert({
             calendarId: "primary",
             resource: event,
           });
-      
+
           request.execute(function (event) {
             console.log(event);
           });
         };
-        addEvent()
+        const authInstance = gapi.auth2.getAuthInstance();
+        console.log(authInstance);
+        authInstance.then(
+          function () {
+            // onInit
+            console.log(authInstance.isSignedIn.get());
+          },
+          function () {
+            // onError
+          }
+        );
+        addEvent();
         setHabitData({
           title: "",
           time: "",
@@ -93,7 +112,8 @@ const HabitForm = () => {
       history.push("/user");
     } catch (error) {
       console.error("Error adding habit:", error);
-      alert("Error adding habit");
+      //alert("Error adding habit");
+      history.push("/user");
     }
   };
 
@@ -109,6 +129,7 @@ const HabitForm = () => {
             name="title"
             value={habitData.title}
             onChange={handleChange}
+            autoComplete="on"
             required
           />
         </div>

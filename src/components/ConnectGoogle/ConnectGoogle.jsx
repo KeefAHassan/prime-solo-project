@@ -52,6 +52,7 @@ function ConnectGoogle() {
             throw resp;
           }
           console.log("Token response", resp);
+         // localStorage.setItem("googleToken", JSON.stringify(tokenClient))
           history.push("/user")
         };
     
@@ -95,7 +96,7 @@ function ConnectGoogle() {
   return (
     <div className="connect" >
       <h1>Connect Your Google Calendar</h1>
-      <button onClick={()=>handleAuthClick()} >connect</button>
+      <button className="create" onClick={()=>handleAuthClick()} >connect</button>
       <Link to="/user">Skip</Link>
     </div>
   );

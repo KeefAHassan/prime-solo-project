@@ -32,7 +32,7 @@ function ProtectedRoute({ component, children, ...props }) {
         <ProtectedComponent />
       ) : (
         // Otherwise, redirect to the Loginpage
-        <LoginPage />
+        <Redirect to="/login"/>
       )}
     </Route>
   );

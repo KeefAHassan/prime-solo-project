@@ -122,10 +122,26 @@ const HabitForm = () => {
     }
   };
   const suggestedHabits = [
+    { value: "Exercise", label: "Exercise" },
+    { value: "Meditation", label: "Meditation" },
+    { value: "Journaling",label: "Journaling" },
+    { value: "Healthy Eating", label: "Healthy Eating" },
+    { value: "Gratitude Practice",label: "Gratitude Practice" },
+    { value: "Mindfulness", label: "Mindfulness" },
+    { value: "Time Management", label: "Time Management" },
+    { value: "Goal Setting", label: "Goal Setting" },
+    { value: "Socializing", label: "Socializing" },
+    { value: "Budgeting",label: "Budgeting" },
+    { value: "Learning a new skill", label: "Learning a new skill" },
+    { value: "Volunteering", label: "Volunteering" },
+    { value: "Creativity Practice", label: "Creativity Practice" },
+    { value: "Positive Affirmations", label: "Positive Affirmations" },
+    { value: "Environmental Sustainability", label: "Environmental Sustainability" },
+    { value: "Digital Detox",label: "Digital Detox" },
+    { value: "Self-care Routine", label: "Self-care Routine" },
+    { value: "Reading",label: "Reading" },
     { value: "Running", label: "Running" },
-    { value: "Cooking", label: "Cooking" },
-    { value: "Reading", label: "Reading" },
-
+    { value: "Cooking", label: "Cooking" }
   ];
   return (
     <div>

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { gapi } from "gapi-script";
+import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const HabitForm = () => {
   const [habitData, setHabitData] = useState({
@@ -26,6 +28,7 @@ const HabitForm = () => {
       getHabit();
     }
   }, [habitId]);
+  const [habitTitle, setHabitTitle] = useState("");
   useEffect(() => {
     if (habit?.id) {
       setHabitData({
@@ -35,6 +38,7 @@ const HabitForm = () => {
         reminder: habit.reminder,
         comments: habit.comments,
       });
+      setHabitTitle({value:habit.title, label:habit.title})
     }
   }, [habit]);
   const handleChange = (e) => {
@@ -57,9 +61,10 @@ const HabitForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const body={...habitData,title:habitTitle.value}
       const response = habitId
-        ? await axios.put("/api/habit/update/" + habitId, habitData)
-        : await axios.post("/api/habit", habitData);
+        ? await axios.put("/api/habit/update/" + habitId, body)
+        : await axios.post("/api/habit", body);
       if (response.status === 201) {
         const addEvent = () => {
           const event = {
@@ -116,23 +121,24 @@ const HabitForm = () => {
       history.push("/user");
     }
   };
+  const suggestedHabits = [
+    { value: "Running", label: "Running" },
+    { value: "Cooking", label: "Cooking" },
+    { value: "Reading", label: "Reading" },
 
+  ];
   return (
     <div>
       <h2>Add New Habit</h2>
       <form onSubmit={handleSubmit}>
-        <div className="group">
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={habitData.title}
-            onChange={handleChange}
-            autoComplete="on"
-            required
-          />
-        </div>
+        <label htmlFor="title">Title:</label>
+        <CreatableSelect
+                options={suggestedHabits}
+                className="mt-2"
+                value={habitTitle}
+                onChange={setHabitTitle}
+                placeholder="Select or type title..."
+              />
         <div className="group">
           <label htmlFor="time">Time:</label>
           <input
